@@ -16,6 +16,10 @@ func init() {
 	{
 		test.GET("/", controller.Test)
 	}
+	user := ginServer.Group("/user")
+	{
+		user.GET("/login", controller.UserLogin)
+	}
 	ginServer.GET("/", controller.Index)
 	ginServer.GET("/index", controller.Index)
 	ginServer.GET("/init_table", controller.InitTables)
