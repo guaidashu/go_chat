@@ -1,0 +1,10 @@
+.vscode
+.idea
+main
+app/config/config_dev.yml
+logs
+test
+.DS_Store
+**/.DS_Store
+go.sum
+go_chat
