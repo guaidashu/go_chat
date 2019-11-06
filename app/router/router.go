@@ -12,6 +12,9 @@ import (
 
 func init() {
 	fmt.Println("开始初始化router")
+
+	ginServer.LoadHTMLGlob("app/views/index/*")
+
 	test := ginServer.Group("/test")
 	{
 		test.GET("/", controller.Test)

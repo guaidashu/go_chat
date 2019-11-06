@@ -6,9 +6,9 @@ package controller
 
 import (
 	"github.com/gin-gonic/gin"
-	"go_chat/app/libs"
+	"net/http"
 )
 
 func Index(ctx *gin.Context) {
-	libs.Success(ctx, "index")
+	ctx.HTML(http.StatusOK, "index/index.html", gin.H{})
 }

@@ -33,3 +33,11 @@ func Group(pattern string, function ...gin.HandlerFunc) *gin.RouterGroup {
 func DELETE(pattern string, function gin.HandlerFunc) {
 	Router.DELETE(pattern, function)
 }
+
+func LoadHTMLGlob(pattern string) {
+	Router.LoadHTMLGlob(pattern)
+}
+
+//func HTMLRender()  {
+//	Router.HTMLRender =
+//}
