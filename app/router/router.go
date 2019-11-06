@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"go_chat/app/controller"
 	"go_chat/app/ginServer"
+	"net/http"
 )
 
 func init() {
@@ -26,5 +27,8 @@ func init() {
 	ginServer.GET("/", controller.Index)
 	ginServer.GET("/index", controller.Index)
 	ginServer.GET("/init_table", controller.InitTables)
+
+	http.FileServer()
+
 	fmt.Println("router初始化成功")
 }
