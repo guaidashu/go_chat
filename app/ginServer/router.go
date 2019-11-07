@@ -6,6 +6,7 @@ package ginServer
 
 import (
 	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
 // If you want to use AutoRouter, please read README.md.
@@ -36,6 +37,10 @@ func DELETE(pattern string, function gin.HandlerFunc) {
 
 func LoadHTMLGlob(pattern string) {
 	Router.LoadHTMLGlob(pattern)
+}
+
+func StaticFS(pattern string, fs http.FileSystem) {
+	Router.StaticFS(pattern, fs)
 }
 
 //func HTMLRender()  {

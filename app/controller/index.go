@@ -10,5 +10,5 @@ import (
 )
 
 func Index(ctx *gin.Context) {
-	ctx.HTML(http.StatusOK, "index.html", gin.H{})
+	ctx.HTML(http.StatusOK, "/index/index.html", gin.H{})
 }
