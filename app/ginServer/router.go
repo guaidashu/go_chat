@@ -42,7 +42,3 @@ func LoadHTMLGlob(pattern string) {
 func StaticFS(pattern string, fs http.FileSystem) {
 	Router.StaticFS(pattern, fs)
 }
-
-//func HTMLRender()  {
-//	Router.HTMLRender =
-//}
