@@ -1,9 +1,6 @@
 package controller
 
 import (
-	"encoding/json"
-	"fmt"
-	"go_chat/app/libs"
 	_struct "go_chat/origin/struct"
 	"net/http"
 )
@@ -11,34 +8,16 @@ import (
 func UserLogin(res http.ResponseWriter, req *http.Request) {
 
 	var (
-		result []byte
-		err    error
+		err error
 	)
 
-	// 设置返回数据格式
-	res.Header().Set("Content-Type", "application/json")
-
 	// 返回 失败的json
-	reply := _struct.GetError()
-	reply.Data = &_struct.LoginReply{
-		Id:    1,
-		Token: "test",
-	}
+	reply := _struct.GetError(res)
 
 	// 解析参数
 	if err = req.ParseForm(); err != nil {
 
-		res.WriteHeader(http.StatusInternalServerError)
-
-		if result, err = json.Marshal(reply); err != nil {
-			fmt.Println(libs.NewReportError(err).Error())
-		}
-
-		_, err = res.Write(result)
-
-		if err != nil {
-			fmt.Println(libs.NewReportError(err).Error())
-		}
+		reply.Write()
 
 		return
 	}
@@ -53,21 +32,16 @@ func UserLogin(res http.ResponseWriter, req *http.Request) {
 	}
 
 	if loginOk {
-
-		// 设置成功状态码
-		res.WriteHeader(http.StatusOK)
-
 		// 返回成功 json
-		reply.Code = 1
+		reply.Code = 0
+		reply.Data = &_struct.LoginReply{
+			Id:    1,
+			Token: "test",
+		}
+	} else {
+		reply.Msg = "user is not exists or password is incorrect"
 	}
 
-	if result, err = json.Marshal(reply); err != nil {
-		fmt.Println(libs.NewReportError(err).Error())
-	}
-
-	// 设置输出
-	if _, err = res.Write(result); err != nil {
-		fmt.Println(libs.NewReportError(err).Error())
-	}
+	reply.Write()
 
 }

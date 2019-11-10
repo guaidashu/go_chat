@@ -1,30 +1,75 @@
 package _struct
 
+import (
+	"encoding/json"
+	"fmt"
+	"go_chat/app/libs"
+	"net/http"
+)
+
 type Reply struct {
-	Code int         `json:"code"`
-	Data interface{} `json:"data"`
+	Writer http.ResponseWriter `json:"-"`
+	Code   int                 `json:"code"`
+	Data   interface{}         `json:"data"`
+	Msg    interface{}         `json:"msg"`
 }
 
-func GetReply(code int, data ...interface{}) *Reply {
+func GetReply(response http.ResponseWriter, code int, data ...interface{}) (reply *Reply) {
 
 	var result interface{}
 
+	// 设置返回数据格式
+	response.Header().Set("Content-Type", "application/json")
+
+	// 设置成功状态码
+	response.WriteHeader(http.StatusOK)
+
 	if len(data) < 1 {
 		result = ""
+	} else {
+		result = data
 	}
 
-	return &Reply{
-		Code: code,
-		Data: result,
+	reply = &Reply{
+		Code:   code,
+		Writer: response,
 	}
+
+	if code != 0 {
+		reply.Msg = result
+		reply.Data = ""
+	} else {
+		reply.Msg = ""
+		reply.Data = result
+	}
+
+	return
 }
 
-func GetSuccess(data ...interface{}) *Reply {
-	return GetReply(0, data)
+func (r *Reply) Write() {
+
+	var (
+		data []byte
+		err  error
+	)
+
+	if data, err = json.Marshal(r); err != nil {
+		fmt.Println(libs.NewReportError(err).Error())
+	}
+
+	// 设置输出
+	if _, err = r.Writer.Write(data); err != nil {
+		fmt.Println(libs.NewReportError(err).Error())
+	}
+
 }
 
-func GetError(data ...interface{}) *Reply {
-	return GetReply(-1, data)
+func GetSuccess(response http.ResponseWriter, data ...interface{}) *Reply {
+	return GetReply(response, 0, data...)
+}
+
+func GetError(response http.ResponseWriter, data ...interface{}) *Reply {
+	return GetReply(response, -1, data...)
 }
 
 type LoginReply struct {
