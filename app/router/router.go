@@ -24,7 +24,8 @@ func init() {
 	}
 	user := ginServer.Group("/user")
 	{
-		user.GET("/login", controller.UserLogin)
+		user.GET("/login.shtml", controller.UserLogin)
+		user.GET("/register.shtml", controller.UserRegister)
 	}
 	ginServer.GET("/", controller.Index)
 	ginServer.GET("/index", controller.Index)

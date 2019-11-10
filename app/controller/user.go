@@ -2,9 +2,13 @@ package controller
 
 import (
 	"github.com/gin-gonic/gin"
-	"go_chat/app/libs"
+	"net/http"
 )
 
 func UserLogin(ctx *gin.Context) {
-	libs.Success(ctx, "user login")
+	ctx.HTML(http.StatusOK, "/user/login.shtml", gin.H{})
+}
+
+func UserRegister(ctx *gin.Context) {
+	ctx.HTML(http.StatusOK, "/user/register.shtml", gin.H{})
 }
