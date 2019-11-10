@@ -1,7 +1,12 @@
 package main
 
-import "fmt"
+import (
+	"net/http"
+)
 
-func main()  {
-	fmt.Println("ok")
+func main() {
+	http.Handle("/asset/", http.FileServer(http.Dir(".")))
+	if err := http.ListenAndServe("127.0.0.1:8087", nil); err != nil {
+		panic(err)
+	}
 }
