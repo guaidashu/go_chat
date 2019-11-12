@@ -12,7 +12,7 @@ func main() {
 	// 1 提供静态文件支持
 	http.HandleFunc("/user/login", controller.UserLogin)
 
-	if err := http.ListenAndServe("127.0.0.1:8087", nil); err != nil {
+	if err := http.ListenAndServe("127.0.0.1:8088", nil); err != nil {
 		panic(err)
 	}
 }
