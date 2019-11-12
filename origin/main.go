@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"go_chat/origin/controller"
+	_ "go_chat/origin/model"
 	"html/template"
 	"log"
 	"net/http"
@@ -41,7 +42,7 @@ func main() {
 	// 1 提供静态文件支持
 	http.HandleFunc("/user/login", controller.UserLogin)
 
-	//http.HandleFunc("/user/login.shtml", func(writer http.ResponseWriter, request *http.Request) {
+	// http.HandleFunc("/user/login.shtml", func(writer http.ResponseWriter, request *http.Request) {
 	//	// 解析 template
 	//	tpl, err := template.ParseFiles("views/user/login.html")
 	//
@@ -52,19 +53,19 @@ func main() {
 	//	if err != nil {
 	//		log.Fatal(err.Error())
 	//	}
-	//})
+	// })
 
-	//file, err := os.Open("views/user/login.html")
+	// file, err := os.Open("views/user/login.html")
 	//
-	//if err != nil {
+	// if err != nil {
 	//	log.Fatal(err.Error())
-	//}
+	// }
 	//
-	//var buf []byte
+	// var buf []byte
 	//
-	//buf, err = ioutil.ReadAll(file)
+	// buf, err = ioutil.ReadAll(file)
 	//
-	//fmt.Println(string(buf))
+	// fmt.Println(string(buf))
 
 	RegisterView()
 
