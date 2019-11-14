@@ -41,3 +41,21 @@ func getConnection() (err error) {
 	return
 
 }
+
+func CreateTable() {
+
+	userModel := new(UserModel)
+
+	if ok, err := userModel.IsExists(); !ok {
+
+		if err != nil {
+			libs.DebugPrint(fmt.Sprintf("%v", libs.NewReportError(err)))
+		}
+
+		if err = userModel.CreateTable(); err != nil {
+			libs.DebugPrint(fmt.Sprintf("%v", libs.NewReportError(err)))
+		}
+
+	}
+
+}

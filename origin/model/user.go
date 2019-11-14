@@ -1,5 +1,10 @@
 package model
 
+import (
+	"github.com/go-xorm/xorm"
+	"go_chat/app/libs"
+)
+
 const (
 	SEX_WOMEN  = "W"
 	SEX_MAN    = "M"
@@ -18,4 +23,58 @@ type UserModel struct {
 	Online   int    `json:"online" xorm:"int(10)" form:"online"`          //
 	Token    string `json:"token" xorm:"varchar(255)" form:"token"`       // /chat?id=1&token=x
 	Memo     string `json:"memo" xorm:"varchar(140)" form:"memo"`         //
+}
+
+func (u *UserModel) GetDB() *xorm.Session {
+	return DbEngine.Table(u.TableName()).Where("status = ?", 1)
+}
+
+func (u *UserModel) TableName() string {
+	return "user"
+}
+
+func (u *UserModel) IsExists() (bool, error) {
+	return DbEngine.IsTableExist(u.TableName())
+}
+
+func (u *UserModel) CreateTable() (err error) {
+
+	// 自动建表
+	err = DbEngine.Sync2(new(UserModel))
+
+	if err != nil {
+		err = libs.NewReportError(err)
+	}
+
+	return
+
+}
+
+func (u *UserModel) GetUser(mobile string) (*UserModel, error) {
+
+	var (
+		user *UserModel
+		err  error
+	)
+
+	if _, err = u.GetDB().Where("mobile=?", mobile).Get(&user); err != nil {
+		err = libs.NewReportError(err)
+	}
+
+	return user, err
+
+}
+
+func (u *UserModel) Insert() (id int64, err error) {
+
+	db := u.GetDB()
+
+	id, err = db.Insert(u)
+
+	if err != nil {
+		err = libs.NewReportError(err)
+	}
+
+	return
+
 }
