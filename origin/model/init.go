@@ -36,9 +36,6 @@ func getConnection() (err error) {
 	// 设置 数据库最大打开的连接数
 	DbEngine.SetMaxOpenConns(10)
 
-	// 自动建表
-	// DbEngine.Sync2(new(User))
-
 	libs.DebugPrint("xorm初始化 数据库成功")
 
 	return

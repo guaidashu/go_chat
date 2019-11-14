@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"go_chat/origin/controller"
-	_ "go_chat/origin/model"
+	_ "go_chat/origin/init"
 	"html/template"
 	"log"
 	"net/http"
