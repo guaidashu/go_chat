@@ -40,7 +40,7 @@ func (u *UserModel) IsExists() (bool, error) {
 func (u *UserModel) CreateTable() (err error) {
 
 	// 自动建表
-	err = DbEngine.Sync2(new(UserModel))
+	err = DbEngine.Sync2(u)
 
 	if err != nil {
 		err = libs.NewReportError(err)
@@ -69,7 +69,7 @@ func (u *UserModel) Insert() (id int64, err error) {
 
 	db := u.GetDB()
 
-	id, err = db.Insert(u)
+	id, err = db.InsertOne(u)
 
 	if err != nil {
 		err = libs.NewReportError(err)
