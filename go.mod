@@ -17,4 +17,5 @@ require (
 	golang.org/x/sys v0.0.0-20191022100944-742c48ecaeb7 // indirect
 	golang.org/x/tools v0.0.0-20191022074931-774d2ec196ee // indirect
 	golang.org/x/xerrors v0.0.0-20191011141410-1b5146add898 // indirect
+	xorm.io/core v0.7.2-0.20190928055935-90aeac8d08eb
 )

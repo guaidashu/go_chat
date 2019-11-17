@@ -7,7 +7,6 @@ package libs
 import (
 	"errors"
 	"fmt"
-	"go_chat/app/config"
 	"os"
 	"runtime"
 	"strings"
@@ -18,9 +17,9 @@ func GetErrorString(err error) string {
 }
 
 func NewReportError(err error) error {
-	if !config.Config.App.DEBUG {
-		return err
-	}
+	// if !config.Config.App.DEBUG {
+	// 	return err
+	// }
 	_, fileName, line, _ := runtime.Caller(1)
 	data := fmt.Sprintf("%v, report in: %v: in line %v", err, fileName, line)
 	return errors.New(data)

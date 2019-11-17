@@ -21,9 +21,10 @@ func (s *UserService) Register(mobile, plainPwd, nickName, avatar, sex string) (
 
 	if tmpUser, err = userModel.GetUser(mobile); err != nil {
 		err = libs.NewReportError(err)
+		return
 	}
 
-	if tmpUser.Id > 0 {
+	if tmpUser != nil {
 		return tmpUser, libs.NewReportError(errors.New("The phone has already to register. "))
 	}
 
@@ -35,6 +36,8 @@ func (s *UserService) Register(mobile, plainPwd, nickName, avatar, sex string) (
 	// 加密
 	userModel.Salt = fmt.Sprintf("%06d", rand.Int31n(10000))
 	userModel.Passwd = utils.MakePasswd(plainPwd, userModel.Salt)
+
+	userModel.Token = fmt.Sprintf("%08d", rand.Int31())
 
 	_, err = userModel.Insert()
 
