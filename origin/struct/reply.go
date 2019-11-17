@@ -72,6 +72,19 @@ func GetError(response http.ResponseWriter, data ...interface{}) *Reply {
 	return GetReply(response, -1, data...)
 }
 
+func WriteSuccess(response http.ResponseWriter, data ...interface{}) {
+	GetSuccess(response, data).Write()
+}
+
+func WriteError(response http.ResponseWriter, data ...interface{}) {
+	GetSuccess(response, data).Write()
+}
+
+// custom code and write message
+func WriteCustomCode(response http.ResponseWriter, code int, data ...interface{}) {
+	GetReply(response, code, data).Write()
+}
+
 type LoginReply struct {
 	Id    int    `json:"id"`
 	Token string `json:"token"`

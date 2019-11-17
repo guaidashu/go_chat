@@ -5,6 +5,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/go-xorm/xorm"
 	"go_chat/app/libs"
+	"xorm.io/core"
 )
 
 var DbEngine *xorm.Engine
@@ -23,7 +24,7 @@ func init() {
 
 func getConnection() (err error) {
 
-	engine, err := xorm.NewEngine("mysql", "yy:wyysdsa!@(127.0.0.1:3306)/go_chat/charset=utf8")
+	engine, err := xorm.NewEngine("mysql", "yy:wyysdsa!@(127.0.0.1:3306)/go_chat?charset=utf8")
 
 	if err != nil {
 		return libs.NewReportError(err)
@@ -31,7 +32,11 @@ func getConnection() (err error) {
 
 	DbEngine = engine
 
+	// shows sql statement on standard output or your io.Writer
 	DbEngine.ShowSQL(true)
+
+	// show debug and other informations
+	DbEngine.Logger().SetLevel(core.LOG_DEBUG)
 
 	// 设置 数据库最大打开的连接数
 	DbEngine.SetMaxOpenConns(10)
