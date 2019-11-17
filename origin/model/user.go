@@ -60,15 +60,15 @@ func (u *UserModel) CreateTable() (err error) {
 func (u *UserModel) GetUser(mobile string) (*UserModel, error) {
 
 	var (
-		user *UserModel
+		user UserModel
 		err  error
 	)
 
-	if _, err = u.GetQueryDB().Where("mobile=?", mobile).Get(user); err != nil {
+	if _, err = u.GetQueryDB().Where("mobile=?", mobile).Get(&user); err != nil {
 		err = libs.NewReportError(err)
 	}
 
-	return user, err
+	return &user, err
 
 }
 
