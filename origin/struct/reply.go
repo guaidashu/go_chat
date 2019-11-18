@@ -27,7 +27,7 @@ func GetReply(response http.ResponseWriter, code int, data ...interface{}) (repl
 	if len(data) < 1 {
 		result = ""
 	} else {
-		result = data
+		result = data[0]
 	}
 
 	reply = &Reply{
@@ -73,16 +73,16 @@ func GetError(response http.ResponseWriter, data ...interface{}) *Reply {
 }
 
 func WriteSuccess(response http.ResponseWriter, data ...interface{}) {
-	GetSuccess(response, data).Write()
+	GetSuccess(response, data...).Write()
 }
 
 func WriteError(response http.ResponseWriter, data ...interface{}) {
-	GetSuccess(response, data).Write()
+	GetSuccess(response, data...).Write()
 }
 
 // custom code and write message
 func WriteCustomCode(response http.ResponseWriter, code int, data ...interface{}) {
-	GetReply(response, code, data).Write()
+	GetReply(response, code, data...).Write()
 }
 
 type LoginReply struct {
