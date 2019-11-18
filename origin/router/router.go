@@ -20,7 +20,7 @@ func RegisterView() {
 
 		tplName := v.Name()
 
-		fmt.Println("注册 ", tplName)
+		fmt.Println("register ", tplName)
 
 		http.HandleFunc(tplName, func(writer http.ResponseWriter, request *http.Request) {
 
