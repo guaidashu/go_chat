@@ -23,6 +23,10 @@ func (c *Contact) GetDB() *xorm.Session {
 	return DbEngine.Table(c.TableName())
 }
 
+func (c *Contact) GetNewSession() *xorm.Session {
+	return DbEngine.NewSession()
+}
+
 func (c *Contact) GetQueryDB() *xorm.Session {
 	return DbEngine.Table(c.TableName()).Where("status=?", 1)
 }
@@ -43,6 +47,53 @@ func (c *Contact) CreateTable() (err error) {
 	if err != nil {
 		err = libs.NewReportError(err)
 	}
+
+	return
+
+}
+
+func (c *Contact) GetContactById(userId, dstId, mode int64) (contact *Contact, err error) {
+
+	var (
+		contactModel Contact
+	)
+
+	db := c.GetQueryDB()
+
+	if _, err = db.Where("ownerid = ?", userId).
+		And("dstid = ?", dstId).
+		And("cate = ?", mode).
+		Get(&contactModel); err != nil {
+		err = libs.NewReportError(err)
+	}
+
+	// 得到一个新的事务
+	session := c.GetNewSession()
+	// 开始事务
+	session.Begin()
+
+	// 存 自己的数据
+	c.Ownerid = userId
+	c.Dstobj = dstId
+	c.Cate = int(mode)
+	if _, err = session.InsertOne(c); err != nil {
+		err = libs.NewReportError(err)
+		session.Rollback()
+		return
+	}
+
+	// 存 对方的数据
+	if _, err = session.InsertOne(&Contact{
+		Ownerid: dstId,
+		Dstobj:  userId,
+		Cate:    int(mode),
+	}); err != nil {
+		err = libs.NewReportError(err)
+		session.Rollback()
+		return
+	}
+
+	session.Commit()
 
 	return
 
