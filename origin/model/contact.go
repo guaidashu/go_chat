@@ -5,6 +5,7 @@ import (
 	"go_chat/app/libs"
 )
 
+// 加群 或者 加好友
 const (
 	CONCAT_CATE_USER     = 0x01
 	CONCAT_CATE_COMUNITY = 0x02

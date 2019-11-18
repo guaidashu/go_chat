@@ -71,6 +71,8 @@ func CreateTable() {
 
 	contactModel := new(Contact)
 
-	createTable(userModel, contactModel)
+	communityModel := new(Community)
+
+	createTable(userModel, contactModel, communityModel)
 
 }
