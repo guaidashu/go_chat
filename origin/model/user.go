@@ -68,6 +68,18 @@ func (u *UserModel) GetUser(mobile string) (*UserModel, error) {
 
 }
 
+func (u *UserModel) UpdateToken() (id int64, err error) {
+
+	db := u.GetQueryDB()
+
+	if id, err = db.ID(u.Id).Cols("token").Update(u); err != nil {
+		err = libs.NewReportError(err)
+	}
+
+	return
+
+}
+
 func (u *UserModel) Insert() (id int64, err error) {
 
 	db := u.GetDB()

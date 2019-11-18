@@ -13,7 +13,8 @@ import (
 func UserLogin(res http.ResponseWriter, req *http.Request) {
 
 	var (
-		err error
+		user *model.UserModel
+		err  error
 	)
 
 	// 解析参数
@@ -27,18 +28,17 @@ func UserLogin(res http.ResponseWriter, req *http.Request) {
 	mobile := req.PostForm.Get("mobile")
 	passWd := req.PostForm.Get("passwd")
 
-	loginOk := false
+	userService := service.UserService{}
 
-	if mobile == "13739497421" && passWd == "123456" {
-		loginOk = true
+	if user, err = userService.Login(mobile, passWd); err != nil {
+		err = libs.NewReportError(err)
+		_struct.WriteError(res, err)
+		return
 	}
 
-	if loginOk {
+	if user.Id > 0 {
 		// 返回成功 json
-		_struct.WriteSuccess(res, &_struct.LoginReply{
-			Id:    1,
-			Token: "test",
-		})
+		_struct.WriteSuccess(res, user)
 	} else {
 		_struct.WriteError(res, "user is not exists or password is incorrect")
 	}
