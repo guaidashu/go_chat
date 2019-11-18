@@ -15,6 +15,7 @@ type Model struct {
 type BaseModel interface {
 	TableName() string
 	CreateTable() (err error)
+	GetQueryDB() *xorm.Session
 	IsExists() (bool, error)
 	GetDB() *xorm.Session
 }

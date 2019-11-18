@@ -47,18 +47,20 @@ func getConnection() (err error) {
 
 }
 
-func createTable(m BaseModel) {
+func createTable(m ...BaseModel) {
 
-	if ok, err := m.IsExists(); !ok {
+	for _, model := range m {
+		if ok, err := model.IsExists(); !ok {
 
-		if err != nil {
-			libs.DebugPrint(fmt.Sprintf("%v", libs.NewReportError(err)))
+			if err != nil {
+				libs.DebugPrint(fmt.Sprintf("%v", libs.NewReportError(err)))
+			}
+
+			if err = model.CreateTable(); err != nil {
+				libs.DebugPrint(fmt.Sprintf("%v", libs.NewReportError(err)))
+			}
+
 		}
-
-		if err = m.CreateTable(); err != nil {
-			libs.DebugPrint(fmt.Sprintf("%v", libs.NewReportError(err)))
-		}
-
 	}
 
 }
@@ -67,6 +69,8 @@ func CreateTable() {
 
 	userModel := new(UserModel)
 
-	createTable(userModel)
+	contactModel := new(Contact)
+
+	createTable(userModel, contactModel)
 
 }
