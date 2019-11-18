@@ -43,6 +43,8 @@ func init() {
 
 	http.HandleFunc("/user/register", controller.UserRegister)
 
+	http.HandleFunc("/contact/addfriend", controller.AddFriend)
+
 	// http.HandleFunc("/user/login.shtml", func(writer http.ResponseWriter, request *http.Request) {
 	//	// 解析 template
 	//	tpl, err := template.ParseFiles("views/user/login.html")
