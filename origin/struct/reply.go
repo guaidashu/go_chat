@@ -77,7 +77,7 @@ func WriteSuccess(response http.ResponseWriter, data ...interface{}) {
 }
 
 func WriteError(response http.ResponseWriter, data ...interface{}) {
-	GetSuccess(response, data...).Write()
+	GetError(response, data...).Write()
 }
 
 // custom code and write message

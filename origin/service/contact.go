@@ -3,6 +3,7 @@ package service
 import (
 	"errors"
 	"go_chat/app/libs"
+	"go_chat/app/models"
 	"go_chat/origin/model"
 )
 
@@ -32,8 +33,10 @@ func (s *ContactService) AddFriend(userId, dstId int64) (err error) {
 		return
 	}
 
-
-
 	return
 
+}
+
+func (s *ContactService) SearchFriend(userId int64) (userList *[]*models.UserModel, err error) {
+	return
 }

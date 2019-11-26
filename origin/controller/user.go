@@ -20,7 +20,7 @@ func UserLogin(res http.ResponseWriter, req *http.Request) {
 	// 解析参数
 	if err = req.ParseForm(); err != nil {
 
-		_struct.WriteError(res, libs.NewReportError(err).Error())
+		_struct.WriteError(res, fmt.Sprintf("%v", libs.NewReportError(err).Error()))
 
 		return
 	}
@@ -32,7 +32,7 @@ func UserLogin(res http.ResponseWriter, req *http.Request) {
 
 	if user, err = userService.Login(mobile, passWd); err != nil {
 		err = libs.NewReportError(err)
-		_struct.WriteError(res, err)
+		_struct.WriteError(res, fmt.Sprintf("%v", err))
 		return
 	}
 
