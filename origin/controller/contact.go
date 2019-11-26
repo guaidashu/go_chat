@@ -3,6 +3,7 @@ package controller
 import (
 	"fmt"
 	"go_chat/app/libs"
+	"go_chat/app/models"
 	"go_chat/origin/args"
 	"go_chat/origin/service"
 	_struct "go_chat/origin/struct"
@@ -42,8 +43,9 @@ func AddFriend(w http.ResponseWriter, req *http.Request) {
 
 func LoadFriend(w http.ResponseWriter, req *http.Request) {
 	var (
-		arg args.ContactArg
-		err error
+		arg   args.ContactArg
+		err   error
+		users *[]*models.UserModel
 	)
 
 	if err = utils.Bind(req, &arg); err != nil {
@@ -52,7 +54,11 @@ func LoadFriend(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	users := contactService.SearchFriend(arg.Userid)
+	if users, err = contactService.SearchFriend(arg.Userid); err != nil {
+		err = libs.NewReportError(err)
+		_struct.WriteError(w, fmt.Sprintf("%v", err))
+		return
+	}
 
 	_struct.WriteSuccess(w, &h{
 		Rows:  users,
