@@ -70,7 +70,7 @@ func (c *Contact) GetContactById(userId, dstId, mode int64) (contact *Contact, e
 	// 得到一个新的事务
 	session := c.GetNewSession()
 	// 开始事务
-	session.Begin()
+	_ = session.Begin()
 
 	// 存 自己的数据
 	c.Ownerid = userId
@@ -78,7 +78,7 @@ func (c *Contact) GetContactById(userId, dstId, mode int64) (contact *Contact, e
 	c.Cate = int(mode)
 	if _, err = session.InsertOne(c); err != nil {
 		err = libs.NewReportError(err)
-		session.Rollback()
+		_ = session.Rollback()
 		return
 	}
 
@@ -89,11 +89,11 @@ func (c *Contact) GetContactById(userId, dstId, mode int64) (contact *Contact, e
 		Cate:    int(mode),
 	}); err != nil {
 		err = libs.NewReportError(err)
-		session.Rollback()
+		_ = session.Rollback()
 		return
 	}
 
-	session.Commit()
+	_ = session.Commit()
 
 	return
 

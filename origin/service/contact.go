@@ -38,5 +38,10 @@ func (s *ContactService) AddFriend(userId, dstId int64) (err error) {
 }
 
 func (s *ContactService) SearchFriend(userId int64) (userList *[]*models.UserModel, err error) {
+
+	contactModel := new(model.Contact)
+
+
+
 	return
 }
